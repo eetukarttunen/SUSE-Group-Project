@@ -4,4 +4,4 @@
 
 # Dataset is gitignored, because the file is large. Download it yourself from the link above.
 
-# Classifier doesn't currently work for typical Finnish fish, since the training data only contains pictures of typical fish species from USA.
+# Classifier doesn't currently work for most Finnish fish, since the training data only contains pictures of typical fish species from USA.
