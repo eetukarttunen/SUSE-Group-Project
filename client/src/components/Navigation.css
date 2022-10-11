@@ -1,0 +1,108 @@
+.navbar {
+  background: #2EAF62;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar-open {
+  background: transparent;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+}
+
+.site-name {
+  color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 2rem;
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  overflow: hidden;
+  font-weight: bold;
+
+}
+
+.site-name-open {
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 2rem;
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  overflow: hidden;
+  font-weight: bold;
+
+}
+
+.nav-links {
+  color: white;
+  text-decoration: none;
+  height: 100%;
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+  display: table; 
+}
+
+.menu-icon {
+  color: white;
+  background-color: #2A282D;
+  margin-top: -6px;
+  padding: 6px 6px 0px 6px;
+  border-radius: 10%;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90vh;
+    position: absolute;
+    top: 80px;
+    left: -100%;
+    opacity: 1;
+    transition: all 0.1s ease;
+}
+
+.nav-menu.active {
+    background: #2EAF62;
+    left: 0;
+    opacity: 1;
+    transition: all 0.1s ease;
+    z-index: 1;
+}
+
+.navbar > .nav-menu.active  {
+  background: #2EAF62;
+}
+
+  .nav-item {
+    width: 100%;
+  }
+
+
+  .menu-icon {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
