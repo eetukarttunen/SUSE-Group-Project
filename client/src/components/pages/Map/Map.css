@@ -1,3 +1,165 @@
 #map {
-  height: 100vh;
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  z-index:0;
+}
+
+.searchBar {
+  position:absolute;
+  background-color:#2A282D;
+  border-radius: 10%;
+  top:80px;
+  right:5%;
+  width:90%;
+  height:35px;
+  visibility: visible;
+  z-index:1003;
+}
+
+.searchInputButton{
+  position:absolute;
+  background-color:#2A282D;
+  color:white;
+  border-style:none;
+  top:0px;
+  right:0px;
+  width:20%;
+  height:47px;
+  visibility: visible;
+  z-index:1003;
+}
+
+.searchInputButton:active{
+  background-color:#616063;
+}
+
+.searchInputButton:disabled{
+  background-color:#616063;
+}
+
+.backgroundDiv {
+  position:absolute;
+  background-color:#2A282D;
+  opacity:0.6;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  visibility: visible;
+  z-index:1002;
+}
+
+.backgroundDiv.hidden {
+  visibility: hidden;
+}
+
+.searchBar.hidden {
+  visibility: hidden;
+}
+
+.textInput {
+  background-color: #2A282D;
+  color:white;
+  border:solid;
+  border-color:#d7d5da;
+  position:absolute;
+  right:20%;
+  font-size:35px;
+  width:80%;
+  z-index:1004;
+}
+
+.infoImage {
+  position:absolute;
+  border-style:solid;
+  border-color: #2A282D;
+  bottom:380px;
+  right:40px;
+  z-index:1001;
+  width:300px;
+  visibility: visible;
+}
+
+.infoImage.hidden {
+  visibility: hidden;
+}
+
+.sideButton{
+  color:white;
+  position:absolute;
+  background-color:#2A282D;
+  width:35px;
+  height:35px;
+  padding-bottom:3px;
+  text-decoration:none;
+  border-radius:10%;
+  border:none;
+  font-size:25px;
+  z-index:1001;
+  right:0;
+  transform: translate(-100%,-60px);
+  box-shadow: 0 6px 6px rgba(0,0,0,0.4);
+}
+
+.sideButtonNotActive{
+  color:white;
+  position:absolute;
+  background-color:#2A282D;
+  width:35px;
+  height:35px;
+  padding-bottom:3px;
+  text-decoration:none;
+  border-radius:10%;
+  border:none;
+  font-size:25px;
+  z-index:1001;
+  right:0;
+  transform: translate(-100%,-60px);
+  box-shadow: 0 6px 6px rgba(0,0,0,0.4);
+}
+
+.sideButtonActive{
+  position:absolute;
+  color:black;
+  background-color:#b4b0bb;
+  width:35px;
+  height:35px;
+  padding-bottom:3px;
+  text-decoration:none;
+  border-radius:10%;
+  border:none;
+  font-size:25px;
+  z-index:1001;
+  right:0;
+  transform: translate(-100%,-60px);
+  box-shadow: 0 6px 6px rgba(0,0,0,0.4);
+}
+
+
+
+.sideButton:active{
+  background-color:#616063;
+}
+
+
+#openMoreInfoButton{
+  bottom:240px;
+  padding-bottom:6px;
+}
+
+
+#zoomInButton{
+  bottom:180px;
+}
+
+#zoomOutButton{
+  bottom:120px;
+  padding-bottom:0px;
+}
+
+#openSearchButton{
+  bottom:60px;
 }
