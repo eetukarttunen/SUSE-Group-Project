@@ -4,15 +4,15 @@ import Box from "@material-ui/core/Box";
 import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PhotoCameraRoundedIcon from "@material-ui/icons/PhotoCameraRounded";
-import {loadGraphModel} from '@tensorflow/tfjs-converter';
 import * as tf from '@tensorflow/tfjs';
-tf.setBackend('webgl');
-const MODEL_URL = '../../../../models/model.json'
+
+const MODEL_URL = 'src/models/model.json'
 
 let model
 
 async function load_model() {
-  model = await loadGraphModel(MODEL_URL);
+  model = await tf.loadLayersModel('https://raw.githubusercontent.com/eetukarttunen/SUSE-Group-Project/main/client/models/model.json');
+  return model
 }
 
 load_model()
@@ -39,15 +39,27 @@ const useStyles = makeStyles((theme) => ({
 function Camera() {
   const classes = useStyles();
   const [source, setSource] = useState("");
+
   const handleCapture = (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
+        const image = new Image()
+        image.src = newUrl
+        image.width = '224'
+        image.height = '224'
+        const a = tf.browser.fromPixels(image, 3)
+        a.print()
+        
+        const prediction = model.predict(a.reshape([1, 224, 224, 3]))
+        const label = prediction.argMax(-1).print();
+        console.log(label)
       }
     }
   };
+
   return (
     <div className={classes.root}>
       <Grid container>
@@ -78,7 +90,7 @@ function Camera() {
               className={classes.imgBox}
             >
               <img src={source} alt={"snap"} className={classes.img}></img>
-              {console.log(model.predict(source))}
+              
             </Box>
           )}
         </Grid>
