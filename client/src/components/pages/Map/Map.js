@@ -3,8 +3,6 @@ import {
   MapContainer,
   TileLayer,
   WMSTileLayer,
-  Popup,
-  useMapEvents,
   Marker,
   useMap,
 } from "react-leaflet";
@@ -14,10 +12,10 @@ import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 const drawerBleeding = 56;
 
 const Root = styled("div")(({ theme }) => ({
@@ -27,6 +25,14 @@ const Root = styled("div")(({ theme }) => ({
       ? grey[100]
       : theme.palette.background.default,
 }));
+
+const CardContentNoPadding = styled(CardContent)(`
+  
+&:last-child {
+  padding-bottom: 10px;
+  
+}
+`);
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
@@ -116,23 +122,31 @@ function SideButtons() {
   );
 }
 
-function Map(props) {
-  const [open, setOpen] = React.useState(false);
+/**
+ * Get current location of a user.
+ * @returns Marker if it gets user's location
+ */
+function LocationMarker() {
+  const [position, setPosition] = React.useState(null);
+
+  const map = useMap();
+
+  React.useEffect(() => {
+    map.locate().on("locationfound", function (e) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    });
+  }, [map]);
+
+  return position === null ? null : <Marker position={position}></Marker>;
+}
+
+function Map() {
+  const [open, setOpen] = React.useState(true);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
-
-  function LocationMarker() {
-    const [position, setPosition] = React.useState(null);
-    const map = useMapEvents({
-      click(e) {
-        setPosition(e.latlng);
-      },
-    });
-
-    return position === null ? null : <Marker position={position}></Marker>;
-  }
 
   return (
     <Root>
@@ -191,7 +205,7 @@ function Map(props) {
         >
           <Puller />
           <Typography sx={{ p: 2, color: "text.secondary" }}>
-            Click here to open
+            {open ? "Click on the map to close" : "Click here to open"}
           </Typography>
         </StyledBox>
         <StyledBox
@@ -200,12 +214,52 @@ function Map(props) {
             pb: 2,
             height: "100%",
             overflow: "auto",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          {/*
-          TODO drawer content here
-          */}
-          <Skeleton variant="rectangular" height="100%" />
+          <Box
+            sx={{
+              textAling: "left",
+              maxWidth: "1024px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "text.main",
+                fontSize: "30px",
+              }}
+              component="h1"
+              variant="h5"
+            >
+              Restrictions in your location
+            </Typography>
+            <Typography gutterBottom component="h3">
+              Lake nearby: <strong>[lake placeholder]</strong>
+            </Typography>
+            <Typography
+              sx={{
+                pt: 3,
+              }}
+              gutterBottom
+              variant="h5"
+              component="h2"
+            >
+              Restrictions
+            </Typography>
+            <Card className="card" style={{ backgroundColor: "#2EAF62" }}>
+              <CardContentNoPadding>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="h2"
+                  style={{ color: "#fff", margin: 0 }}
+                >
+                  <strong>No restrictions on your area</strong>
+                </Typography>
+              </CardContentNoPadding>
+            </Card>
+          </Box>
         </StyledBox>
       </SwipeableDrawer>
     </Root>
