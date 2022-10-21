@@ -16,6 +16,9 @@ import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import getRandomFishingRestriction from "../../../_mock/FishingRestriction";
+import getRandomLake from "../../../_mock/Lake";
+
 const drawerBleeding = 56;
 
 const Root = styled("div")(({ theme }) => ({
@@ -103,7 +106,7 @@ function SideButtons() {
           className="textInput"
           onInput={AddInputEventListener}
           onKeyDown={(e) =>
-            e.key.toString() == "Enter" ? OpenSearch() : false
+            e.key.toString() === "Enter" ? OpenSearch() : false
           }
         ></input>
         <button
@@ -120,6 +123,16 @@ function SideButtons() {
       ></div>
     </>
   );
+}
+
+function getFishingRestrictions() {
+  const restrictions = [];
+
+  for (const _ of Array(Math.floor(Math.random() * 11)).keys()) {
+    restrictions.push(getRandomFishingRestriction());
+  }
+
+  return restrictions;
 }
 
 /**
@@ -235,7 +248,7 @@ function Map() {
               Restrictions in your location
             </Typography>
             <Typography gutterBottom component="h3">
-              Lake nearby: <strong>[lake placeholder]</strong>
+              Lake nearby: <strong>{getRandomLake()}</strong>
             </Typography>
             <Typography
               sx={{
@@ -259,6 +272,13 @@ function Map() {
                 </Typography>
               </CardContentNoPadding>
             </Card>
+            {getFishingRestrictions().map((restriction) => {
+              return (
+                <p>
+                  {restriction.fish} {restriction.minLength} cm
+                </p>
+              );
+            })}
           </Box>
         </StyledBox>
       </SwipeableDrawer>
