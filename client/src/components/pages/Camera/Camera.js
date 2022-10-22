@@ -50,10 +50,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%",
-  backgroundColor:
-    theme.palette.mode === "light"
+  backgroundColor: "#e0e0e0",
+    /*theme.palette.mode === "light"
       ? grey[100]
-      : theme.palette.background.default,
+      : theme.palette.background.default,*/
 }));
 
 
