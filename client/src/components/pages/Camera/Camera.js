@@ -15,14 +15,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Helmet from 'react-helmet';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const MODEL_URL = 'src/models/model.json'
 
-let model
-
-async function load_model() {
-  model = await tf.loadLayersModel('https://raw.githubusercontent.com/eetukarttunen/SUSE-Group-Project/main/client/models/model.json');
-}
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
 }));
@@ -46,17 +41,7 @@ function indexOfMax(arr) {
   return maxIndex;
 }
 
-const labels = [
-  "Black Sea Sprat",
-  "Gilt-Head Bream",
-  "Hourse Mackerel",
-  "Red Mullet",
-  "Red Sea Bream",
-  "Sea Bass",
-  "Shrimp",
-  "Striped Red Mullet",
-  "Trout"
-]
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,12 +72,32 @@ const Root = styled("div")(({ theme }) => ({
 }));
 
 
-function Camera() {
+const Camera = () => {
+
+
   const classes = useStyles();
   const [source, setSource] = useState("");
   const [species, setSpecies] = useState('')
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const labels = [
+    "Black Sea Sprat",
+    "Gilt-Head Bream",
+    "Hourse Mackerel",
+    "Red Mullet",
+    "Red Sea Bream",
+    "Sea Bass",
+    "Shrimp",
+    "Striped Red Mullet",
+    "Trout"
+  ]
+
+  let model
+
+  async function load_model() {
+    model = await tf.loadLayersModel('https://raw.githubusercontent.com/eetukarttunen/SUSE-Group-Project/main/client/models/model.json');
+  }
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -103,24 +108,43 @@ function Camera() {
     
   }
 `);
+  function preprocessImage(image, modelName) {
+    let tensor = tf.browser.fromPixels(image)
+      .resizeNearestNeighbor([224, 224])
+      .toFloat();
+
+    if (modelName === undefined) {
+      return tensor.expandDims();
+    } else if (modelName === "mobilenet") {
+      let offset = tf.scalar(127.5);
+      return tensor.sub(offset)
+        .div(offset)
+        .expandDims();
+    } else {
+      alert("Unknown model name..")
+    }
+  }
+
   const handleCapture = async (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
+        setLoading(true);
         await load_model()
         const file = target.files[0];
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
-        setOpen(true)
         const image = new Image()
         image.src = file
         image.width = '224'
         image.height = '224'
-        let a = await tf.browser.fromPixels(image).reshape([224, 224, 3]).toFloat().expandDims()
+        let a = tf.browser.fromPixels(image).reshape([224, 224, 3]).toFloat().expandDims()
         let prediction = await model.predict(a)
         console.log(prediction.dataSync())
         console.log(indexOfMax(prediction.dataSync()))
         console.log(prediction.data())
         setSpecies(labels[indexOfMax(prediction.dataSync())])
+        setOpen(true)
+        setLoading(false);
       }
     }
   };
@@ -181,6 +205,21 @@ function Camera() {
               />
             </IconButton>
           </label>
+          {loading && (
+          <Box sx={{ display: 'flex' }}>
+          <CircularProgress
+            size={24}
+            sx={{
+              color: 'gray',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              marginTop: '-12px',
+              marginLeft: '-12px',
+            }}
+          />
+          </Box>
+        )}
       <SwipeableDrawer
         anchor="bottom"
         open={open}
@@ -216,6 +255,7 @@ function Camera() {
           }}
         >
           <Puller sx={{backgroundColor: 'gray', width: '45px'}}/>
+          
           {source && (
             <Box
               display="flex"
