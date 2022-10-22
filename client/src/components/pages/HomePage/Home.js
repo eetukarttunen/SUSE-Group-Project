@@ -95,15 +95,11 @@ function Home() {
             Datasources used
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            efficitur ornare accumsan. Mauris imperdiet vestibulum nisl ac
-            faucibus. Nullam tincidunt massa vel nulla luctus, quis placerat
-            purus viverra. Nullam sed mi metus. Curabitur vulputate neque
-            lacinia mauris ultricies, sed sollicitudin lorem sollicitudin.
-            Vivamus scelerisque ullamcorper libero ut elementum. Pellentesque eu
-            dolor id sem suscipit pretium. Integer in gravida nibh. Aliquam in
-            urna nulla. Curabitur id facilisis diam, ut accumsan nunc. Maecenas
-            maximus ornare lectus, at tincidunt tortor mollis nec.
+            <Link style={{ color: "#2EAF62"}} target="_blank" href="https://www.kalastusrajoitus.fi/)">The Ministry of Agriculture and Forestry of Finland</Link>
+            <br/>
+            <Link style={{ color: "#2EAF62"}} target="_blank" href="https://paikkatietojentuottajat-koekaytto.maanmittauslaitos.fi/aineisto/1a855a17-ea46-425c-88b3-faaf9834d29f/kalastusrajoituspalvelun-avoin-data">Maanmittauslaitos</Link>
+            <br/>
+            <Link style={{ color: "#2EAF62"}} target="_blank" href="https://www.openstreetmap.org/copyright">Open Street Map</Link>
           </Typography>
         </CardContent>
       </Card>
