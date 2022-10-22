@@ -22,12 +22,41 @@ let model
 
 async function load_model() {
   model = await tf.loadLayersModel('https://raw.githubusercontent.com/eetukarttunen/SUSE-Group-Project/main/client/models/model.json');
-  return model
 }
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
 }));
-load_model()
+
+
+function indexOfMax(arr) {
+  if (arr.length === 0) {
+      return -1;
+  }
+
+  var max = arr[0];
+  var maxIndex = 0;
+
+  for (var i = 1; i < arr.length; i++) {
+      if (arr[i] > max) {
+          maxIndex = i;
+          max = arr[i];
+      }
+  }
+
+  return maxIndex;
+}
+
+const labels = [
+  "Black Sea Sprat",
+  "Gilt-Head Bream",
+  "Hourse Mackerel",
+  "Red Mullet",
+  "Red Sea Bream",
+  "Sea Bass",
+  "Shrimp",
+  "Striped Red Mullet",
+  "Trout"
+]
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +90,7 @@ const Root = styled("div")(({ theme }) => ({
 function Camera() {
   const classes = useStyles();
   const [source, setSource] = useState("");
+  const [species, setSpecies] = useState('')
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -76,17 +106,21 @@ function Camera() {
   const handleCapture = async (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
+        await load_model()
         const file = target.files[0];
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
         setOpen(true)
         const image = new Image()
-        image.src = newUrl
+        image.src = file
         image.width = '224'
         image.height = '224'
-        let a = tf.browser.fromPixels(image).reshape([224, 224, 3]).toFloat().expandDims();
+        let a = await tf.browser.fromPixels(image).reshape([224, 224, 3]).toFloat().expandDims()
         let prediction = await model.predict(a)
         console.log(prediction.dataSync())
+        console.log(indexOfMax(prediction.dataSync()))
+        console.log(prediction.data())
+        setSpecies(labels[indexOfMax(prediction.dataSync())])
       }
     }
   };
@@ -119,8 +153,8 @@ function Camera() {
       />
       <Grid container>
         <Grid item xs={12}>
-          <h2 style={{color: "#e0e0e0", fontSize: "12px", fontWeight: 500}}>
-              Open camera
+          <h2 style={{color: "#e0e0e0", fontSize: "17px", fontWeight: 500}}>
+              Open the camera
           </h2>
           <input
             accept="image/*"
@@ -171,7 +205,7 @@ function Camera() {
             right: 0,
           }}
         >
-        <Puller />
+        
         </StyledBox>
         <StyledBox
           sx={{
@@ -181,6 +215,7 @@ function Camera() {
             overflow: "auto",
           }}
         >
+          <Puller sx={{backgroundColor: 'gray', width: '45px'}}/>
           {source && (
             <Box
               display="flex"
@@ -198,7 +233,7 @@ function Camera() {
             </Box>
           )}          
         <Typography sx={{ p: 3, textAlign: 'center', color: "text.main", fontSize: '30px' }}>
-          Pike
+          {species}
         </Typography>
         <Card className="card" style={{ backgroundColor: "#2EAF62", marginBottom: '20px' }}>
           <CardContentNoPadding>
@@ -240,7 +275,7 @@ function Camera() {
             </Typography>
           </CardContentNoPadding>
         </Card>
-          <Skeleton variant="rectangular" height="100%" />
+     
         </StyledBox>
       </SwipeableDrawer>
         </Grid>
