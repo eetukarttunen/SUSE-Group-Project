@@ -14,7 +14,6 @@ import { Global } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import "./Camera.css";
 import Helmet from 'react-helmet';
 
 const MODEL_URL = 'src/models/model.json'
