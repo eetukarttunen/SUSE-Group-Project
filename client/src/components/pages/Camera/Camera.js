@@ -73,7 +73,7 @@ function Camera() {
     
   }
 `);
-  const handleCapture = (target) => {
+  const handleCapture = async (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
         const file = target.files[0];
@@ -84,12 +84,9 @@ function Camera() {
         image.src = newUrl
         image.width = '224'
         image.height = '224'
-        const a = tf.browser.fromPixels(image, 3)
-        a.print()
-        
-        const prediction = model.predict(a.reshape([1, 224, 224, 3]))
-        const label = prediction.argMax(-1).print();
-        console.log(label)
+        let a = tf.browser.fromPixels(image).reshape([224, 224, 3]).toFloat().expandDims();
+        let prediction = await model.predict(a)
+        console.log(prediction.dataSync())
       }
     }
   };
