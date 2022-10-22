@@ -25,6 +25,8 @@ import getRandomFishingRestriction from "../../../_mock/FishingRestriction";
 import getRandomLake from "../../../_mock/Lake";
 
 const drawerBleeding = 56;
+const restrictions = getFishingRestrictions();
+const lakeName = getRandomLake();
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%",
@@ -245,7 +247,7 @@ function Map() {
               Restrictions in your location
             </Typography>
             <Typography gutterBottom component="h3">
-              Lake nearby: <strong>{getRandomLake()}</strong>
+              Lake nearby: <strong>{lakeName}</strong>
             </Typography>
             <Typography
               sx={{
@@ -268,7 +270,7 @@ function Map() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {getFishingRestrictions().map((row) => (
+                  {restrictions.map((row) => (
                     <TableRow
                       key={row.fish + row.minLength}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
