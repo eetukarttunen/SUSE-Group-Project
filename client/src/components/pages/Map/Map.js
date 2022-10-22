@@ -172,7 +172,7 @@ function LocationMarker() {
   React.useEffect(() => {
     map.locate().on("locationfound", function (e) {
       setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
+      map.flyTo(e.latlng, 13);
     });
   }, [map]);
 
@@ -198,8 +198,8 @@ function Map() {
         }}
       />
       <MapContainer
-        center={[62.60118, 29.76316]}
-        zoom={13}
+        center={[65.192059, 24.945831]}
+        zoom={6}
         id="map"
         zoomControl={false}
         doubleClickZoom={false}
