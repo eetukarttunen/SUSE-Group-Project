@@ -100,6 +100,7 @@ function Home() {
             <Link style={{ color: "#2EAF62"}} target="_blank" href="https://paikkatietojentuottajat-koekaytto.maanmittauslaitos.fi/aineisto/1a855a17-ea46-425c-88b3-faaf9834d29f/kalastusrajoituspalvelun-avoin-data">Maanmittauslaitos</Link>
             <br/>
             <Link style={{ color: "#2EAF62"}} target="_blank" href="https://www.openstreetmap.org/copyright">Open Street Map</Link>
+            
           </Typography>
         </CardContent>
       </Card>
