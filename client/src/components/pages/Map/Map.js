@@ -76,7 +76,6 @@ function SideButtons() {
       document.getElementsByClassName("textInput")[0].value.toString().length
     );
   };
-  const inputField = document.getElementsByClassName("textInput")[0];
   return (
     <>
       <button
@@ -176,6 +175,7 @@ function Map() {
         zoom={13}
         id="map"
         zoomControl={false}
+        doubleClickZoom={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
