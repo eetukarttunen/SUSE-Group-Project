@@ -52,6 +52,7 @@ const Puller = styled(Box)(({ theme }) => ({
 
 function SideButtons() {
   const [infoVisible, setVisibility] = React.useState(false);
+  const [locations, setLocations] = React.useState(false);
   const [searchClicked, setSearchState] = React.useState(false);
 
   const mapUse = useMap();
@@ -64,8 +65,34 @@ function SideButtons() {
   const ClickZoomOut = () => {
     mapUse.zoomOut();
   };
+  const setCsv = function(currentCsv){
+    const rows = currentCsv.toString().replace(/"/g,'').split(/\n/);
+    rows.shift();
+    const newArray = [];
+    rows.forEach(currentRow => {
+      newArray.push(currentRow.split(','));
+    });
+    newArray.forEach(currentRow => {
+      currentRow[0] = currentRow[0].toLowerCase();
+      currentRow[1] = parseFloat(currentRow[1]);
+      currentRow[2] = parseFloat(currentRow[2]);
+    });
+    setLocations(newArray);
+  }
   const OpenSearch = () => {
     setSearchState(!searchClicked);
+    if(!locations){
+      //Source of csv: https://github.com/teelmo/geodata
+      fetch('Kuntien keskipisteet 2013.csv').then((curResponse)=>curResponse.text()).then((curText)=>setCsv(curText));
+    }else{
+      locations.forEach((currentLocation)=>{
+        if(document.getElementsByClassName("textInput")[0].value&&currentLocation[0]==document.getElementsByClassName("textInput")[0].value.toLowerCase()){
+          mapUse.panTo([currentLocation[1],currentLocation[2]]);
+        }
+      });
+    }
+    document.getElementsByClassName("textInput")[0].value='';
+    setInputLength(0);
     setTimeout(() => {
       document.getElementsByClassName("textInput")[0].focus();
     }, 100);
@@ -104,7 +131,7 @@ function SideButtons() {
           className="textInput"
           onInput={AddInputEventListener}
           onKeyDown={(e) =>
-            e.key.toString() === "Enter" ? OpenSearch() : false
+            e.key.toString() === "Enter"&&inputLength>0 ? OpenSearch() : false
           }
         ></input>
         <button
