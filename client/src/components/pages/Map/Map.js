@@ -86,7 +86,7 @@ function SideButtons() {
       fetch('Kuntien keskipisteet 2013.csv').then((curResponse)=>curResponse.text()).then((curText)=>setCsv(curText));
     }else{
       locations.forEach((currentLocation)=>{
-        if(document.getElementsByClassName("textInput")[0].value&&currentLocation[0]==document.getElementsByClassName("textInput")[0].value){
+        if(document.getElementsByClassName("textInput")[0].value&&currentLocation[0]==document.getElementsByClassName("textInput")[0].value.toLowerCase()){
           mapUse.panTo([currentLocation[1],currentLocation[2]]);
         }
       });
