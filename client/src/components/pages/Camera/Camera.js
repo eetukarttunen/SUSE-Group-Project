@@ -14,6 +14,8 @@ import { Global } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import "./Camera.css";
+import Helmet from 'react-helmet';
 
 const MODEL_URL = 'src/models/model.json'
 
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%",
-  backgroundColor: "#e0e0e0",
+  backgroundColor: "black",
     /*theme.palette.mode === "light"
       ? grey[100]
       : theme.palette.background.default,*/
@@ -103,8 +105,12 @@ function Camera() {
     top: 8,
     left: "calc(50% - 15px)",
   }));
+
   return (
+    
     <div className={classes.root}>
+    <Helmet bodyAttributes={{style: 'background-color : black'}}/>
+
     <Root>
       <CssBaseline />
       <Global
@@ -117,7 +123,9 @@ function Camera() {
       />
       <Grid container>
         <Grid item xs={12}>
-          <h5>Open camera</h5>
+          <h2 style={{color: "#e0e0e0", fontSize: "12px", fontWeight: 500}}>
+              Open camera
+          </h2>
           <input
             accept="image/*"
             className={classes.input}
@@ -132,7 +140,15 @@ function Camera() {
               aria-label="upload picture"
               component="span"
             >
-              <PhotoCameraRoundedIcon fontSize="large" color="primary" />
+              <PhotoCameraRoundedIcon 
+              color="success" 
+              style={{
+                fontSize:"8rem", "background-color": "#D9D9D9",
+                "border-radius": "25%",
+                fill: "black",
+              }} 
+              
+              />
             </IconButton>
           </label>
       <SwipeableDrawer
