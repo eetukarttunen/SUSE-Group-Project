@@ -98,6 +98,8 @@ const Camera = () => {
   async function load_model() {
     model = await tf.loadLayersModel('https://raw.githubusercontent.com/eetukarttunen/SUSE-Group-Project/main/client/models/model.json');
   }
+
+
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -108,44 +110,39 @@ const Camera = () => {
     
   }
 `);
-  function preprocessImage(image, modelName) {
+
+  function preprocessImage(image) {
     let tensor = tf.browser.fromPixels(image)
       .resizeNearestNeighbor([224, 224])
       .toFloat();
 
-    if (modelName === undefined) {
-      return tensor.expandDims();
-    } else if (modelName === "mobilenet") {
-      let offset = tf.scalar(127.5);
-      return tensor.sub(offset)
-        .div(offset)
-        .expandDims();
-    } else {
-      alert("Unknown model name..")
-    }
+    return tensor.expandDims();
+
   }
+  const handlePredict = async (image) => {
+      await load_model()
+      let prediction = await model.predict(preprocessImage(image)).data();
+      console.log(prediction)
+      setSpecies(labels[indexOfMax(prediction)])
+      setOpen(true)
+     setLoading(false)
+      
+    
+  };
 
   const handleCapture = async (target) => {
     if (target.files) {
       if (target.files.length !== 0) {
-        setLoading(true);
-        await load_model()
+        setLoading(true)
         const file = target.files[0];
         const newUrl = URL.createObjectURL(file);
         setSource(newUrl);
-        const image = new Image()
-        image.src = file
-        image.width = '224'
-        image.height = '224'
-        let a = tf.browser.fromPixels(image).reshape([224, 224, 3]).toFloat().expandDims()
-        let prediction = await model.predict(a)
-        console.log(prediction.dataSync())
-        console.log(indexOfMax(prediction.dataSync()))
-        console.log(prediction.data())
-        setSpecies(labels[indexOfMax(prediction.dataSync())])
-        setOpen(true)
-        setLoading(false);
+        const image = new Image(224, 224)
+        image.src = newUrl
+        
+        handlePredict(image)
       }
+      
     }
   };
 
@@ -164,7 +161,6 @@ const Camera = () => {
     
     <div className={classes.root}>
     <Helmet bodyAttributes={{style: 'background-color : black'}}/>
-
     <Root>
       <CssBaseline />
       <Global
@@ -257,12 +253,14 @@ const Camera = () => {
           <Puller sx={{backgroundColor: 'gray', width: '45px'}}/>
           
           {source && (
+            
             <Box
               display="flex"
               justifyContent="center"
               className={classes.imgBox}
             >
-              <img src={'https://wiki.fishingplanet.com/images/0/0b/Northern_Pike.png'} 
+              <img src={'https://img.freepik.com/premium-vector/fish-logo_7888-34.jpg?w=1800'} 
+                  
                    alt={"snap"} 
                    className={classes.img}
                    width={500}
