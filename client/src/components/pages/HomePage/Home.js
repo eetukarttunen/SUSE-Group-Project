@@ -63,15 +63,9 @@ function Home() {
             About
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            efficitur ornare accumsan. Mauris imperdiet vestibulum nisl ac
-            faucibus. Nullam tincidunt massa vel nulla luctus, quis placerat
-            purus viverra. Nullam sed mi metus. Curabitur vulputate neque
-            lacinia mauris ultricies, sed sollicitudin lorem sollicitudin.
-            Vivamus scelerisque ullamcorper libero ut elementum. Pellentesque eu
-            dolor id sem suscipit pretium. Integer in gravida nibh. Aliquam in
-            urna nulla. Curabitur id facilisis diam, ut accumsan nunc. Maecenas
-            maximus ornare lectus, at tincidunt tortor mollis nec.
+            <b>Ahti AI</b> is an ongoing project with a goal of guiding users for following the fishing guidelines when it comes to restrictions in Finland. 
+            <br/><br/>You can find information about your local as well other areas inside the boundaries of Finland through <Link component={RouterLink} to="/map" style={{color: "#2EAF62"}}>map view.</Link>
+            <br/><br/>To recognize the catch which you feel unfamiliar about, you can check the specie through <Link component={RouterLink} to="/camera" style={{color: "#2A282D"}}>fish recognizing view.</Link>
           </Typography>
           <br />
           <Typography
