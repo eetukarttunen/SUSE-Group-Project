@@ -14,8 +14,13 @@ import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import getRandomFishingRestriction from "../../../_mock/FishingRestriction";
 import getRandomLake from "../../../_mock/Lake";
 
@@ -28,14 +33,6 @@ const Root = styled("div")(({ theme }) => ({
       ? grey[100]
       : theme.palette.background.default,
 }));
-
-const CardContentNoPadding = styled(CardContent)(`
-  
-&:last-child {
-  padding-bottom: 10px;
-  
-}
-`);
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
@@ -128,7 +125,7 @@ function SideButtons() {
 function getFishingRestrictions() {
   const restrictions = [];
 
-  for (const _ of Array(Math.floor(Math.random() * 11)).keys()) {
+  for (const _ of Array(Math.floor(Math.random() * 9) + 1).keys()) {
     restrictions.push(getRandomFishingRestriction());
   }
 
@@ -155,7 +152,7 @@ function LocationMarker() {
 }
 
 function Map() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -258,27 +255,37 @@ function Map() {
               variant="h5"
               component="h2"
             >
-              Restrictions
+              Currently effective restrictions
             </Typography>
-            <Card className="card" style={{ backgroundColor: "#2EAF62" }}>
-              <CardContentNoPadding>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  style={{ color: "#fff", margin: 0 }}
-                >
-                  <strong>No restrictions on your area</strong>
-                </Typography>
-              </CardContentNoPadding>
-            </Card>
-            {getFishingRestrictions().map((restriction) => {
-              return (
-                <p>
-                  {restriction.fish} {restriction.minLength} cm
-                </p>
-              );
-            })}
+
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Fish</TableCell>
+                    <TableCell align="right">Validity period</TableCell>
+                    <TableCell align="right">Minimum length (cm)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {getFishingRestrictions().map((row) => (
+                    <TableRow
+                      key={row.fish + row.minLength}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.fish}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.from.toLocaleDateString("fi-FI")} -{" "}
+                        {row.to.toLocaleDateString("fi-FI")}
+                      </TableCell>
+                      <TableCell align="right">{row.minLength}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
         </StyledBox>
       </SwipeableDrawer>

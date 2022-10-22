@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-//pieni easter egg tähän :)) https://www.youtube.com/watch?v=R6S-b_k-ZKY
+//rabbit hole https://www.youtube.com/watch?v=R6S-b_k-ZKY
 
 const getRandomFishingRestriction = () => {
   return {
