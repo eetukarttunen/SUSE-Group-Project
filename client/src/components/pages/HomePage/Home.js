@@ -101,7 +101,9 @@ function Home() {
             <br/>
             <Link style={{ color: "#2EAF62"}} target="_blank" href="https://www.openstreetmap.org/copyright">Open Street Map</Link>
             <br/>
-           <Link style={{ color: "#2EAF62" }} target="_blank" href="https://github.com/teelmo/geodata">Geodata ("Kuntien keskipisteet 2013.csv")</Link> 
+            <Link style={{ color: "#2EAF62" }} target="_blank" href="https://github.com/teelmo/geodata">Geodata ("Kuntien keskipisteet 2013.csv")</Link>
+            <br/>
+            <Link style={{ color: "#2EAF62" }} target="_blank" href="https://react-icons.github.io/react-icons/icons?name=fa">react-icons (Font Awesome)</Link> 
           </Typography>
         </CardContent>
       </Card>
