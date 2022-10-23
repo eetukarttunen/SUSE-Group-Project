@@ -164,6 +164,7 @@
 
 
 #openMoreInfoButton{
+  padding-top:5px;
   bottom:240px;
   padding-bottom:6px;
 }
@@ -179,5 +180,6 @@
 }
 
 #openSearchButton{
+  padding-top:5px;
   bottom:60px;
 }

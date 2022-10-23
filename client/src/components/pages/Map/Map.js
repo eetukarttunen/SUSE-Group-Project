@@ -23,6 +23,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import getRandomFishingRestriction from "../../../_mock/FishingRestriction";
 import getRandomLake from "../../../_mock/Lake";
+import {FaSearch,FaEye} from "react-icons/fa";
 
 const drawerBleeding = 56;
 const restrictions = getFishingRestrictions();
@@ -122,7 +123,7 @@ function SideButtons() {
         id="openMoreInfoButton"
         onClick={OpenMoreInfo}
       >
-        &#128712;
+        <FaEye/>
       </button>
       <button className="sideButton" id="zoomInButton" onClick={ClickZoomIn}>
         +
@@ -131,7 +132,7 @@ function SideButtons() {
         -
       </button>
       <button className="sideButton" id="openSearchButton" onClick={OpenSearch}>
-        &#128269;
+        <FaSearch/>
       </button>
       <img
         alt="legend"
