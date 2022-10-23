@@ -97,7 +97,6 @@ function SideButtons() {
       });
       if(!found&&inputLength>0){
         setNotFound(true);
-        console.log('notfound');
         setTimeout(()=>setNotFound(false),2000);
       }
     }
