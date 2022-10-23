@@ -105,6 +105,15 @@ function Home() {
             <br/>
             <Link style={{ color: "#2EAF62" }} target="_blank" href="https://react-icons.github.io/react-icons/icons?name=fa">react-icons (Font Awesome)</Link> 
           </Typography>
+          <br/>
+          <Typography
+            gutteBottom
+            variant="h6"
+            component="h2"
+            style={{ color: "black" }}>
+            Link to Open Street Maps map fixing section
+          </Typography>
+          <Link style={{ color: "#2EAF62" }} target="_blank" href="https://www.openstreetmap.org/fixthemap">https://www.openstreetmap.org/fixthemap</Link> 
         </CardContent>
       </Card>
     </div>
