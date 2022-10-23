@@ -19,6 +19,24 @@
   z-index:1003;
 }
 
+.notFoundMessage {
+  position:absolute;
+  text-align:center;
+  background-color:#2A282D;
+  padding-top:260px;
+  color:#FFFFFF;
+  opacity:0.6;
+  top:0px;
+  right:0px;
+  width:100%;
+  height:100%;
+  visibility: visible;
+  z-index:1003;
+}
+.notFoundMessageHidden {
+  visibility: hidden;
+}
+
 .searchInputButton{
   position:absolute;
   background-color:#2A282D;

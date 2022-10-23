@@ -54,6 +54,8 @@ function SideButtons() {
   const [infoVisible, setVisibility] = React.useState(false);
   const [locations, setLocations] = React.useState(false);
   const [searchClicked, setSearchState] = React.useState(false);
+  const [notFound, setNotFound] = React.useState(false);
+
 
   const mapUse = useMap();
   const OpenMoreInfo = () => {
@@ -85,11 +87,19 @@ function SideButtons() {
       //Source of csv: https://github.com/teelmo/geodata
       fetch('Kuntien keskipisteet 2013.csv').then((curResponse)=>curResponse.text()).then((curText)=>setCsv(curText));
     }else{
+      const found = false;
       locations.forEach((currentLocation)=>{
         if(document.getElementsByClassName("textInput")[0].value&&currentLocation[0]==document.getElementsByClassName("textInput")[0].value.toLowerCase()){
+          document.getElementsByClassName("textInput")[0].value='';
           mapUse.panTo([currentLocation[1],currentLocation[2]]);
+          found = true;
         }
       });
+      if(!found&&inputLength>0){
+        setNotFound(true);
+        console.log('notfound');
+        setTimeout(()=>setNotFound(false),2000);
+      }
     }
     document.getElementsByClassName("textInput")[0].value='';
     setInputLength(0);
@@ -105,6 +115,9 @@ function SideButtons() {
   };
   return (
     <>
+      <Typography className={notFound?"notFoundMessage":"notFoundMessageHidden"} style={{fontSize:'27px'}}>
+        <b>Location not found</b>
+      </Typography>
       <button
         className={infoVisible ? "sideButtonActive" : "sideButtonNotActive"}
         id="openMoreInfoButton"
