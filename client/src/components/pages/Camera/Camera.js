@@ -16,7 +16,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Helmet from 'react-helmet';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import FISH_LABELS from './FISH_LABELS'
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#fff" : grey[800],
@@ -77,21 +77,9 @@ const Camera = () => {
 
   const classes = useStyles();
   const [source, setSource] = useState("");
-  const [species, setSpecies] = useState('')
+  const [species, setSpecies] = useState([])
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const labels = [
-    "Black Sea Sprat",
-    "Gilt-Head Bream",
-    "Hourse Mackerel",
-    "Red Mullet",
-    "Red Sea Bream",
-    "Sea Bass",
-    "Shrimp",
-    "Striped Red Mullet",
-    "Trout"
-  ]
 
   let model
 
@@ -123,11 +111,10 @@ const Camera = () => {
       await load_model()
       let prediction = await model.predict(preprocessImage(image)).data();
       console.log(prediction)
-      setSpecies(labels[indexOfMax(prediction)])
+      //setSpecies(labels[indexOfMax(prediction)])
+      setSpecies(FISH_LABELS[indexOfMax(prediction)])
       setOpen(true)
      setLoading(false)
-      
-    
   };
 
   const handleCapture = async (target) => {
@@ -139,10 +126,8 @@ const Camera = () => {
         setSource(newUrl);
         const image = new Image(224, 224)
         image.src = newUrl
-        
         handlePredict(image)
       }
-      
     }
   };
 
@@ -248,18 +233,19 @@ const Camera = () => {
             pb: 2,
             height: "100%",
             overflow: "auto",
+            marginTop: '50px'
           }}
         >
           <Puller sx={{backgroundColor: 'gray', width: '45px'}}/>
           
-          {source && (
+          {species && (
             
             <Box
               display="flex"
               justifyContent="center"
               className={classes.imgBox}
             >
-              <img src={'https://img.freepik.com/premium-vector/fish-logo_7888-34.jpg?w=1800'} 
+              <img src={species.img} 
                   
                    alt={"snap"} 
                    className={classes.img}
@@ -271,7 +257,7 @@ const Camera = () => {
             </Box>
           )}          
         <Typography sx={{ p: 3, textAlign: 'center', color: "text.main", fontSize: '30px' }}>
-          {species}
+          {species.name}
         </Typography>
         <Card className="card" style={{ backgroundColor: "#2EAF62", marginBottom: '20px' }}>
           <CardContentNoPadding>
@@ -281,7 +267,11 @@ const Camera = () => {
               component="h2"
               style={{ color: "#fff" }}
             >
-              <strong>No restrictions on your area</strong>
+              {species.date === '-' ? 
+                <strong>No restrictions on your area</strong>
+                :
+                <strong>Fishing is restricted {species.date}</strong>
+            }
             </Typography>
           </CardContentNoPadding>
         </Card>
@@ -295,7 +285,7 @@ const Camera = () => {
             >
               <strong>Minimum size:</strong>
               <br />
-              40cm
+              {species.size}
             </Typography>
           </CardContentNoPadding>
         </Card>
@@ -309,7 +299,7 @@ const Camera = () => {
             >
               <strong>Protected</strong>
               <br />
-              1.8. - 30.6.
+              {species.date}
             </Typography>
           </CardContentNoPadding>
         </Card>
